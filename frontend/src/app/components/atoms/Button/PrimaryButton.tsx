@@ -8,7 +8,7 @@ type Props = {
 const PrimaryButton = ({ children, disabled, onClick }: PropsWithChildren<Props>) => {
   return (
     <button
-      className='px-4 py-2 bg-teal-500 text-white font-semibold rounded-md transition-all hover:bg-teal-400'
+      className='px-4 py-2 h-12 bg-teal-500 text-white font-semibold rounded-md transition-all hover:bg-teal-400'
       disabled={disabled}
       onClick={onClick}
     >

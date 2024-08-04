@@ -80,16 +80,38 @@
 ## ディレクトリ構成
 
 ```
-/app
-├── layout.tsx       # アプリ全体のレイアウト
-├── page.tsx         # ホーム画面
-├── meal
-│   └── new
-│       └── page.tsx # 食事入力画面
-├── goals
-│   └── page.tsx     # 目標設定画面
-├── foods
-│   └── page.tsx     # 食品データベース検索画面
-└── progress
-    └── page.tsx     # 進捗報告画面
+src
+├── app
+│   ├── components
+│   │   ├── atoms
+│   │   │   ├── Button
+│   │   │   │   └── PrimaryButton.tsx
+│   │   │   ├── Heading
+│   │   │   │   ├── Heading1.tsx
+│   │   │   │   └── Heading2.tsx
+│   │   │   ├── Input
+│   │   │   │   └── Input.tsx
+│   │   │   └── LabelHead
+│   │   │       └── LabelHead.tsx
+│   │   ├── molecules
+│   │   │   ├── ContentsBox.tsx
+│   │   │   └── InputBox.tsx
+│   │   ├── organisms
+│   │   │   ├── Form.tsx
+│   │   │   └── LineCharts.tsx
+│   │   └── templates
+│   │       └── Wrapper.tsx
+│   ├── favicon.ico
+│   ├── foods
+│   │   └── page.tsx
+│   ├── globals.css
+│   ├── goals
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── meal
+│   │   └── new
+│   │       └── page.tsx
+│   ├── page.tsx
+│   └── progress
+│       └── page.tsx
 ```
