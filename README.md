@@ -80,38 +80,41 @@
 ## ディレクトリ構成
 
 ```
-src
-├── app
-│   ├── components
-│   │   ├── atoms
-│   │   │   ├── Button
-│   │   │   │   └── PrimaryButton.tsx
-│   │   │   ├── Heading
-│   │   │   │   ├── Heading1.tsx
-│   │   │   │   └── Heading2.tsx
-│   │   │   ├── Input
-│   │   │   │   └── Input.tsx
-│   │   │   └── LabelHead
-│   │   │       └── LabelHead.tsx
-│   │   ├── molecules
-│   │   │   ├── ContentsBox.tsx
-│   │   │   └── InputBox.tsx
-│   │   ├── organisms
-│   │   │   ├── Form.tsx
-│   │   │   └── LineCharts.tsx
-│   │   └── templates
-│   │       └── Wrapper.tsx
-│   ├── favicon.ico
-│   ├── foods
-│   │   └── page.tsx
-│   ├── globals.css
-│   ├── goals
-│   │   └── page.tsx
-│   ├── layout.tsx
-│   ├── meal
-│   │   └── new
-│   │       └── page.tsx
-│   ├── page.tsx
-│   └── progress
-│       └── page.tsx
+├── src
+    └── app
+        ├── components
+        │   ├── atoms
+        │   │   ├── Button
+        │   │   │   └── PrimaryButton.tsx
+        │   │   ├── Heading
+        │   │   │   ├── Heading1.tsx
+        │   │   │   └── Heading2.tsx
+        │   │   ├── Input
+        │   │   │   ├── Input.tsx
+        │   │   │   ├── RadioFemale.tsx
+        │   │   │   └── RadioMale.tsx
+        │   │   └── LabelHead
+        │   │       └── LabelHead.tsx
+        │   ├── molecules
+        │   │   ├── ContentsBox.tsx
+        │   │   ├── InputBox.tsx
+        │   │   └── ResultClacBox.tsx
+        │   ├── organisms
+        │   │   ├── Form.tsx
+        │   │   └── LineCharts.tsx
+        │   └── templates
+        │       └── Wrapper.tsx
+        ├── favicon.ico
+        ├── foods
+        │   └── page.tsx
+        ├── globals.css
+        ├── goals
+        │   └── page.tsx
+        ├── layout.tsx
+        ├── meal
+        │   └── new
+        │       └── page.tsx
+        ├── page.tsx
+        └── progress
+            └── page.tsx
 ```
