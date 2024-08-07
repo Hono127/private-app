@@ -23,7 +23,6 @@ const Goals: React.FC = () => {
   return (
     <Wrapper>
       <Heading1>目標設定画面</Heading1>
-
       <Form onSubmit={handleSubmit}>
         <InputBox>
           <LabelHead>現在の体重</LabelHead>
@@ -51,7 +50,6 @@ const Goals: React.FC = () => {
         </InputBox>
         <PrimaryButton>保存</PrimaryButton>
       </Form>
-
     </Wrapper>
   );
 };
