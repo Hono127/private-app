@@ -1,5 +1,8 @@
 # Private App
 
+## [wiki](https://github.com/Hono127/private-app/wiki/Fitness%E2%80%90App)
+## [Todo](https://github.com/users/Hono127/projects/2)
+
 ## 環境構築手順
 
 ### フロントエンド
