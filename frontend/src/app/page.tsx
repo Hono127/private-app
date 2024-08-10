@@ -13,7 +13,6 @@ import InputHigh from './components/molecules/InputHigh';
 import InputWeight from './components/molecules/InputWeight';
 import InputAge from './components/molecules/InputAge';
 import ResultCalc from './components/organisms/ResultDisplay';
-import HumbergerMenu from './components/organisms/HumbergerMenu';
 
 const Home = () => {
   const [gender, setGender] = useState('male');
@@ -129,7 +128,6 @@ const Home = () => {
   // ホーム画面
   return (
     <Wrapper>
-      <HumbergerMenu />
       <UserGreeting userName={userName} />
       <ContentsBox>
         <form onSubmit={handleSubmit} className='flex flex-col gap-3'>

@@ -1,3 +1,4 @@
+'use client'
 import { supabase } from '@/lib/supabaseClient';
 import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
@@ -34,9 +35,9 @@ const HamburgerMenu = () => {
   };
 
   return (
-    <div className='relative'>
+    <div className='relative block md:hidden' >
       <button
-        className='absolute top-6 right-3 flex flex-col items-center justify-center w-8 h-8 space-y-1 focus:outline-none'
+        className='flex flex-col items-center justify-center w-8 h-8 space-y-1 focus:outline-none'
         onClick={toggleMenu}
       >
         <span
@@ -50,49 +51,39 @@ const HamburgerMenu = () => {
         ></span>
       </button>
       {isOpen && (
-        <div className='absolute top-16 right-0 mt-2 w-48 bg-slate-400 rounded-md shadow-lg'>
-          <ul className='flex flex-col p-4 space-y-2'>
-            <li>
+        <div className='absolute top-16 right-0 mt-2 w-48 bg-slate-400 rounded-md shadow-lg z-10'>
+          <nav className='flex flex-col p-4 space-y-2'>
+            <a href="/foods" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">食品データベース</a>
+            <a href="/meal/new" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">食事記録</a>
+            <a href="/goals" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">目標設定</a>
+            <a href="/progress" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">進捗報告</a>
+            <a href="/settings" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">設定</a>
+            <a
+              href='#'
+              className='block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md'
+              onClick={handleLogout}
+            >
+              ログアウト
+            </a>
+            {!user && (
               <a
                 href='#'
                 className='block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md'
-                onClick={() => navigateTo('/settings')}
+                onClick={() => navigateTo('/login')}
               >
-                ユーザー設定
+                ログイン
               </a>
-            </li>
-            <li>
+            )}
+            {!user && (
               <a
                 href='#'
                 className='block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md'
-                onClick={handleLogout}
+                onClick={() => navigateTo('/signup')}
               >
-                ログアウト
+                会員登録
               </a>
-            </li>
-            {!user && (
-              <li>
-                <a
-                  href='#'
-                  className='block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md'
-                  onClick={() => navigateTo('/login')}
-                >
-                  ログイン
-                </a>
-              </li>
             )}
-            {!user && (
-              <li>
-                <a
-                  href='#'
-                  className='block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md'
-                  onClick={() => navigateTo('/signup')}
-                >
-                  会員登録
-                </a>
-              </li>
-            )}
-          </ul>
+          </nav>
         </div>
       )}
     </div>
