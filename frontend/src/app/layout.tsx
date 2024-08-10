@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { UserProvider } from './context/UserContext';
+import Header from './components/templates/Header';
 
 export const metadata: Metadata = {
   title: 'マクロ栄養計算',
@@ -11,7 +12,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ja'>
       <body className='bg-black text-white'>
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <Header />
+          {children}
+        </UserProvider>
       </body>
     </html>
   );
