@@ -13,6 +13,8 @@ import InputHigh from './components/molecules/InputHigh';
 import InputWeight from './components/molecules/InputWeight';
 import InputAge from './components/molecules/InputAge';
 import ResultCalc from './components/organisms/ResultDisplay';
+import { useSaveCaluculation } from './hooks/useSaveCalculation';
+import useUserId from './hooks/useUserId';
 
 const Home = () => {
   const [gender, setGender] = useState('male');
@@ -26,6 +28,7 @@ const Home = () => {
   const [macros, setMacros] = useState({ protein: 0, fat: 0, carbs: 0 });
   const [isButtonValid, setIsButtonValid] = useState(false);
   const userName = useUserName();
+  const { saveCaluculation } = useSaveCaluculation()
 
   useEffect(() => {
     setIsButtonValid(height !== '' && weight !== '' && age !== '');
@@ -125,6 +128,35 @@ const Home = () => {
     calculateMacros(totalCalories, goal);
   };
 
+  const handleSave = async () => {
+    const userId = await useUserId(); // ユーザーIDを取得
+    if (!userId) {
+      alert('ユーザーIDが取得できませんでした。');
+      return;
+    }
+
+    try {
+      // userNameがnullでないことを確認
+      if (!userName) {
+        throw new Error('ユーザーが認証されていません');
+      }
+
+      const calculationResult = {
+        user_id: userId,
+        bmr: bmr,
+        calories: calories,
+        protein: macros.protein,
+        fat: macros.fat,
+        carbs: macros.carbs,
+      };
+
+      await saveCaluculation(calculationResult);
+      alert('計算結果が保存されました');
+    } catch (error) {
+      console.error('保存に失敗しました', error);
+    }
+  };
+
   // ホーム画面
   return (
     <Wrapper>
@@ -153,6 +185,9 @@ const Home = () => {
         </form>
         {/* 計算結果 */}
         <ResultCalc bmr={bmr} calories={calories} macros={macros} />
+        {/* 計算結果保存 */}
+        {bmr &&
+          <PrimaryButton onClick={handleSave}>計算結果を保存する</PrimaryButton>}
       </ContentsBox>
     </Wrapper>
   );
