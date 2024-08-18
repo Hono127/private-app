@@ -15,6 +15,7 @@ import InputAge from './components/molecules/InputAge';
 import ResultCalc from './components/organisms/ResultDisplay';
 import { useSaveCaluculation } from './hooks/useSaveCalculation';
 import useUserId from './hooks/useUserId';
+import { useRouter } from 'next/navigation';
 
 const Home = () => {
   const [gender, setGender] = useState('male');
@@ -28,6 +29,7 @@ const Home = () => {
   const [macros, setMacros] = useState({ protein: 0, fat: 0, carbs: 0 });
   const [isButtonValid, setIsButtonValid] = useState(false);
   const userName = useUserName();
+  const router = useRouter();
   const { saveCaluculation } = useSaveCaluculation()
 
   useEffect(() => {
@@ -157,6 +159,10 @@ const Home = () => {
     }
   };
 
+  const transferSignin = () => {
+    router.push('/login');
+  }
+
   // ホーム画面
   return (
     <Wrapper>
@@ -186,8 +192,12 @@ const Home = () => {
         {/* 計算結果 */}
         <ResultCalc bmr={bmr} calories={calories} macros={macros} />
         {/* 計算結果保存 */}
-        {bmr &&
-          <PrimaryButton onClick={handleSave}>計算結果を保存する</PrimaryButton>}
+        {(bmr && userName) &&
+          <PrimaryButton onClick={handleSave}>計算結果を保存する</PrimaryButton>
+        }
+        {(bmr && !userName) &&
+          <PrimaryButton onClick={transferSignin}>ログインまたは会員登録して<br />計算結果を保存する</PrimaryButton>
+        }
       </ContentsBox>
     </Wrapper>
   );
