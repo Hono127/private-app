@@ -10,6 +10,7 @@ import LabelHead from '../components/atoms/LabelHead/LabelHead';
 import Input from '../components/atoms/Input/Input';
 import PrimaryButton from '../components/atoms/Button/PrimaryButton';
 import ErrorText from '../components/atoms/Text/ErrorText';
+import Link from 'next/link';
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');
@@ -35,6 +36,10 @@ const Login = () => {
     }
   };
 
+  const transferSignup = () => {
+    router.push('/signup');
+  }
+
   return (
     <Wrapper>
       <Heading1>ログイン</Heading1>
@@ -59,6 +64,7 @@ const Login = () => {
           />
         </InputBox>
         <PrimaryButton type='submit'>ログイン</PrimaryButton>
+        <Link href='/signup' className='underline hover:text-blue-600'>会員登録はこちら</Link>
       </form>
     </Wrapper>
   );
