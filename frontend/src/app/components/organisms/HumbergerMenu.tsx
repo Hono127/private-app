@@ -53,18 +53,30 @@ const HamburgerMenu = () => {
       {isOpen && (
         <div className='absolute top-16 right-0 mt-2 w-48 bg-slate-400 rounded-md shadow-lg z-10'>
           <nav className='flex flex-col p-4 space-y-2'>
-            <a href="/foods" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">食品データベース</a>
-            <a href="/meal/new" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">食事記録</a>
-            <a href="/goals" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">目標設定</a>
-            <a href="/progress" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">進捗報告</a>
-            <a href="/settings" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">設定</a>
-            <a
-              href='#'
-              className='block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md'
-              onClick={handleLogout}
-            >
-              ログアウト
-            </a>
+            {user && (
+              <a href="/foods" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">食品データベース</a>
+            )}
+            {user && (
+              <a href="/meal/new" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">食事記録</a>
+            )}
+            {user && (
+              <a href="/goals" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">目標設定</a>
+            )}
+            {user && (
+              <a href="/progress" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">進捗報告</a>
+            )}
+            {user && (
+              <a href="/settings" className="hover:underline block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">設定</a>
+            )}
+            {user && (
+              <a
+                href='#'
+                className='block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md'
+                onClick={handleLogout}
+              >
+                ログアウト
+              </a>
+            )}
             {!user && (
               <a
                 href='#'
