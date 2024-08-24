@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '../../lib/supabaseClient';
+import { supabase } from '../lib/supabaseClient';
 import Wrapper from '../components/templates/Wrapper';
 import Heading1 from '../components/atoms/Heading/Heading1';
 import InputBox from '../components/molecules/InputBox';
