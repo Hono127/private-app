@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import HumbergerMenu from '@/app/components/organisms/HumbergerMenu';
 import { User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/app/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 
 const Header = () => {

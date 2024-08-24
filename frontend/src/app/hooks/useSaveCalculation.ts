@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/app/lib/supabaseClient";
 import { useState } from "react";
 
 type CalculationResult = {
