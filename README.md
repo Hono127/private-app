@@ -1,3 +1,6 @@
+# ↓↓↓↓↓↓リポジトリ移転しました
+https://github.com/Hono127/fitness
+
 # Fitness App
 
 ## [wiki](https://github.com/Hono127/private-app/wiki/Fitness%E2%80%90App)
