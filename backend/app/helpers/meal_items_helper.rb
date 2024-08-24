@@ -1,0 +1,2 @@
+module MealItemsHelper
+end

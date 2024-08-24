@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  meal_type: MyString
+  meal_date: 2024-08-05
+  total_calories: 1.5
+  total_protein: 1.5
+  total_fat: 1.5
+  total_carbohydrates: 1.5
+
+two:
+  user: two
+  meal_type: MyString
+  meal_date: 2024-08-05
+  total_calories: 1.5
+  total_protein: 1.5
+  total_fat: 1.5
+  total_carbohydrates: 1.5

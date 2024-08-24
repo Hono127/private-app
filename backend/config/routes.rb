@@ -1,13 +1,8 @@
 Rails.application.routes.draw do
-  get 'static/test'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
-  get 'test-page', to: 'static#test'
-  namespace :api do
-    namespace :v1 do
-      get 'health', to: 'health#index'
-    end
-  end
+  resources :food_items
+  resources :meal_items
+  resources :meal_detail_items
+  resources :progress_items
+  resources :users
+  post 'login', to: 'sessions#create'
 end

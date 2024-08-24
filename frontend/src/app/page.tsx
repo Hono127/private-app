@@ -1,95 +1,207 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
+import React, { useEffect, useState } from 'react';
+import Wrapper from './components/templates/Wrapper';
+import ContentsBox from './components/molecules/ContentsBox';
+import PrimaryButton from './components/atoms/Button/PrimaryButton';
+import UserGreeting from './components/molecules/UserGreeting';
+import useUserName from './hooks/useUserName';
+import GenderSelection from './components/molecules/GenderSelection';
+import ActivityLevelSelection from './components/molecules/ActivityLevelSelection';
+import GoalSelection from './components/molecules/GoalSelection';
+import InputHigh from './components/molecules/InputHigh';
+import InputWeight from './components/molecules/InputWeight';
+import InputAge from './components/molecules/InputAge';
+import ResultCalc from './components/organisms/ResultDisplay';
+import { useSaveCaluculation } from './hooks/useSaveCalculation';
+import UseUserId from './hooks/useUserId';
+import { useRouter } from 'next/navigation';
+
+const Home = () => {
+  const [gender, setGender] = useState('male');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [age, setAge] = useState('');
+  const [activityLevel, setActivityLevel] = useState('lazy');
+  const [bmr, setBmr] = useState(0);
+  const [goal, setGoal] = useState('reduce');
+  const [calories, setCalories] = useState(0);
+  const [macros, setMacros] = useState({ protein: 0, fat: 0, carbs: 0 });
+  const [isButtonValid, setIsButtonValid] = useState(false);
+  const userName = useUserName();
+  const router = useRouter();
+  const { saveCaluculation } = useSaveCaluculation()
+  // const [userId, setUserId] = useState<string | null>(null); // ここでuserIdを管理する
+
+
+  useEffect(() => {
+    setIsButtonValid(height !== '' && weight !== '' && age !== '');
+  }, [height, weight, age]);
+
+  // 基礎代謝計算
+  const calcBMR = () => {
+    // 男性：((0.1238+(0.0481×体重kg)+(0.0234×身長cm)-(0.0138×年齢)-0.5473))×1000/4.186
+    // 女性：((0.1238+(0.0481×体重kg)+(0.0234×身長cm)-(0.0138×年齢)-0.5473×2))×1000/4.186
+    const h = parseFloat(height);
+    const w = parseFloat(weight);
+    const a = parseFloat(age);
+    let bmrValue;
+    if (gender === 'male') {
+      bmrValue =
+        ((0.1238 + 0.0481 * w + 0.0234 * h - 0.0138 * a - 0.5473) * 1000) / 4.186;
+    } else {
+      bmrValue =
+        ((0.1238 + 0.0481 * w + 0.0234 * h - 0.0138 * a - 0.5473 * 2) * 1000) / 4.186;
+    }
+    setBmr(Math.floor(bmrValue));
+    return bmrValue;
+  };
+
+  // カロリー計算
+  const calculateCalories = (bmrValue: number) => {
+    // 活動係数
+    let activityCoefficient;
+    switch (activityLevel) {
+      case 'lazy':
+        activityCoefficient = 1.2;
+        break;
+      case 'slightlyLazy':
+        activityCoefficient = 1.375;
+        break;
+      case 'normal':
+        activityCoefficient = 1.55;
+        break;
+      case 'slightlyActive':
+        activityCoefficient = 1.725;
+        break;
+      case 'active':
+        activityCoefficient = 1.9;
+        break;
+      default:
+        activityCoefficient = 1.2;
+    }
+    // 目的
+    let goalFactor;
+    switch (goal) {
+      case 'lose':
+        goalFactor = 0.8;
+        break;
+      case 'gain':
+        goalFactor = 1.2;
+        break;
+      default:
+        goalFactor = 1.0;
+    }
+    // 1日の消費カロリー
+    const totalCalories = bmrValue * activityCoefficient * goalFactor;
+    setCalories(totalCalories);
+    return totalCalories;
+  };
+
+  // マクロ栄養計算
+  const calculateMacros = (totalCalories: number, goal: string) => {
+    let proteinRatio, fatRatio, carbRatio;
+    // 目的に応じたPFCの比率
+    switch (goal) {
+      case 'lose':
+        proteinRatio = 0.3;
+        fatRatio = 0.25;
+        carbRatio = 0.45;
+        break;
+      case 'gain':
+        proteinRatio = 0.25;
+        fatRatio = 0.2;
+        carbRatio = 0.55;
+        break;
+      default: // 'maintain'
+        proteinRatio = 0.2;
+        fatRatio = 0.3;
+        carbRatio = 0.5;
+        break;
+    }
+    const protein = (totalCalories * proteinRatio) / 4;
+    const fat = (totalCalories * fatRatio) / 9;
+    const carbs = (totalCalories * carbRatio) / 4;
+    setMacros({ protein, fat, carbs });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const bmrValue = calcBMR();
+    const totalCalories = calculateCalories(bmrValue);
+    calculateMacros(totalCalories, goal);
+  };
+
+  const handleSave = async () => {
+    const userId = await UseUserId();
+    if (!userId) {
+      alert('ユーザーIDが取得できませんでした。');
+      return;
+    }
+
+    try {
+      if (!userName) {
+        throw new Error('ユーザーが認証されていません');
+      }
+
+      const calculationResult = {
+        user_id: userId,
+        bmr: bmr,
+        calories: calories,
+        protein: macros.protein,
+        fat: macros.fat,
+        carbs: macros.carbs,
+      };
+
+      await saveCaluculation(calculationResult);
+      alert('計算結果が保存されました');
+    } catch (error) {
+      console.error('保存に失敗しました', error);
+    }
+  };
+
+  const transferSignin = () => {
+    router.push('/login');
+  }
+
+  // ホーム画面
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <Wrapper>
+      <UserGreeting userName={userName} />
+      <ContentsBox>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
+          {/* 性別 */}
+          <GenderSelection gender={gender} setGender={setGender} />
+          {/* 身長 */}
+          <InputHigh height={height} setHeight={setHeight} />
+          {/* 体重 */}
+          <InputWeight weight={weight} setWeight={setWeight} />
+          {/* 年齢 */}
+          <InputAge age={age} setAge={setAge} />
+          {/* アクティブ度 */}
+          <ActivityLevelSelection
+            activityLevel={activityLevel}
+            setActivityLevel={setActivityLevel}
+          />
+          {/* 目的 */}
+          <GoalSelection goal={goal} setGoal={setGoal} />
+          {/* 計算する */}
+          <PrimaryButton type='submit' onClick={calcBMR} disabled={!isButtonValid}>
+            計算する
+          </PrimaryButton>
+        </form>
+        {/* 計算結果 */}
+        <ResultCalc bmr={bmr} calories={calories} macros={macros} />
+        {/* 計算結果保存 */}
+        {(bmr && userName) &&
+          <PrimaryButton onClick={handleSave}>計算結果を保存する</PrimaryButton>
+        }
+        {(bmr && !userName) &&
+          <PrimaryButton onClick={transferSignin}>ログインまたは会員登録して<br />計算結果を保存する</PrimaryButton>
+        }
+      </ContentsBox>
+    </Wrapper>
   );
-}
+};
+
+export default Home;
