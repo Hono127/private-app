@@ -14,7 +14,7 @@ import InputWeight from './components/molecules/InputWeight';
 import InputAge from './components/molecules/InputAge';
 import ResultCalc from './components/organisms/ResultDisplay';
 import { useSaveCaluculation } from './hooks/useSaveCalculation';
-import useUserId from './hooks/useUserId';
+import UseUserId from './hooks/useUserId';
 import { useRouter } from 'next/navigation';
 
 const Home = () => {
@@ -31,6 +31,8 @@ const Home = () => {
   const userName = useUserName();
   const router = useRouter();
   const { saveCaluculation } = useSaveCaluculation()
+  // const [userId, setUserId] = useState<string | null>(null); // ここでuserIdを管理する
+
 
   useEffect(() => {
     setIsButtonValid(height !== '' && weight !== '' && age !== '');
@@ -131,14 +133,13 @@ const Home = () => {
   };
 
   const handleSave = async () => {
-    const userId = await useUserId(); // ユーザーIDを取得
+    const userId = await UseUserId();
     if (!userId) {
       alert('ユーザーIDが取得できませんでした。');
       return;
     }
 
     try {
-      // userNameがnullでないことを確認
       if (!userName) {
         throw new Error('ユーザーが認証されていません');
       }

@@ -1,6 +1,6 @@
 import { supabase } from "@/app/lib/supabaseClient";
 
-const useUserId = async () => {
+const UseUserId = async () => {
   const {
     data: { user },
     error,
@@ -14,4 +14,4 @@ const useUserId = async () => {
   return user?.id || null;
 };
 
-export default useUserId;
+export default UseUserId;
